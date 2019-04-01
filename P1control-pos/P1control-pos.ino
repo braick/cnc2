@@ -1,9 +1,9 @@
 
 /**Variables y librerias para la lectura del g-code**/
 #include <SD.h>
-const char* codop[80]; //tamaño preasignado del vector de operaciones 
-float xpos[80];
-float ypos[80];
+const char* codop[50]; //tamaño preasignado del vector de operaciones 
+float xpos[50];
+float ypos[50];
 /**Variables y librerias para el control de motores**/
 #include <Servo.h>
 Servo myservo;
@@ -12,14 +12,14 @@ AccelStepper Xax(1, 6, 7);
 AccelStepper Yax(1, 10, 8);
 
 int serv=1;  
-int s_speed=10; //este rango de velocidades va bien(comprobar con carga)
-int acl=100;
+int s_speed=200; //este rango de velocidades va bien(comprobar con carga)
+int acl=600;
 int numop=0; //contador de operacion
 void setup() {
   delay(5000);
   Serial.begin(9600);
   SD.begin(4);
-  File gcode = SD.open("love.ngc");
+  File gcode = SD.open("cuad.ngc");
   delay(1000);
   if(!gcode){Serial.println("NOPE");}
   char curnt;
@@ -85,7 +85,7 @@ while(numop<cnt){
 int up(){ //sube el puntero si no lo esta ya
   if (serv==1){return serv;} 
   myservo.write(180);
-  delay(100);
+  delay(170);
   myservo.write(90);
   serv=1;
   delay(1000);
@@ -95,7 +95,7 @@ int up(){ //sube el puntero si no lo esta ya
 int down(){
   if(serv==0){return serv;}
   myservo.write(0);
-  delay(100);
+  delay(125);
   myservo.write(90);
   serv=0;
   delay(1000);
